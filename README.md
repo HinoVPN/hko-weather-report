@@ -154,6 +154,23 @@ hko-weather-report/
 - **數據更新頻率**：每小時更新
 - **語言支持**：繁體中文 (`lang=tc`)
 
+## 🚀 自動部署
+
+本專案配置了完整的 CI/CD 流程，使用 GitHub Actions 自動部署到 GitHub Pages：
+
+### 📦 部署流程
+- **觸發條件**：推送到 `master` 分支或 PR 合併
+- **構建環境**：Ubuntu Latest + Node.js 18
+- **部署目標**：GitHub Pages
+- **線上地址**：https://hinovpn.github.io/hko-weather-report
+
+### 🔧 工作流
+1. **PR 預覽**：每個 Pull Request 都會執行構建測試
+2. **自動部署**：合併到 master 後自動構建並部署
+3. **狀態監控**：實時顯示部署狀態和構建結果
+
+詳細部署說明請參考 [DEPLOYMENT.md](./DEPLOYMENT.md)
+
 ## 🎯 未來規劃
 
 - [ ] 添加更多天氣資訊（風速、氣壓等）
