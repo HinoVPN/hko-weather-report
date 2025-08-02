@@ -1,70 +1,181 @@
-# Getting Started with Create React App
+# 🌤️ 香港天氣報告 (HKO Weather Report)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+一個現代化的香港天氣預報應用程式，整合香港天文台開放數據 API，提供當前天氣狀況和九天天氣預報。
 
-## Available Scripts
+## ✨ 功能特色
 
-In the project directory, you can run:
+### 🎯 核心功能
+- **即時天氣資訊**：顯示香港天文台的當前溫度、濕度、紫外線指數和降雨量
+- **九天天氣預報**：完整的九天天氣預測，包含溫度範圍、降雨機率和天氣圖標
+- **智能預警系統**：自動顯示天氣警告和特別天氣提示
+- **互動式圖表**：溫度和濕度變化趨勢圖表
+
+### 🎨 設計特色
+- **深色現代主題**：優雅的深色漸變背景設計
+- **動態背景**：根據當前天氣狀況自動切換背景（晴天、多雲、雨天、風暴、雪天）
+- **玻璃擬態設計**：採用 backdrop-filter 實現的現代玻璃效果
+- **響應式布局**：完美適配桌面端、平板和手機設備
+- **流暢動畫**：細膩的過渡動畫和懸停效果
+
+### 🔧 技術特色
+- **雙 API 整合**：同時獲取當前天氣 (`rhrread`) 和預報數據 (`fnd`)
+- **智能數據解析**：優先顯示香港天文台站點的溫度數據
+- **錯誤處理機制**：優雅的加載狀態和錯誤提示
+- **中文本地化**：完整的繁體中文界面和數據支持
+
+## 🛠️ 技術棧
+
+### 前端框架
+- **React 18** - 現代化的用戶界面框架
+- **Create React App** - 零配置的開發環境
+
+### UI 設計
+- **Bootstrap 5** - 響應式網格系統（輔助性使用）
+- **Bootstrap Icons** - 豐富的圖標庫
+- **自定義 CSS** - 現代化的玻璃擬態設計
+- **Google Fonts** - SF Pro Display 字體
+
+### 數據處理
+- **Axios** - HTTP 請求庫
+- **Recharts** - 互動式圖表庫
+
+### 數據來源
+- **香港天文台開放數據 API**
+  - 當前天氣：`https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc`
+  - 九天預報：`https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc`
+
+## 🚀 快速開始
+
+### 前置要求
+- Node.js (建議版本 16.0 或以上)
+- npm 或 yarn
+
+### 安裝步驟
+
+1. **克隆專案**
+   ```bash
+   git clone https://github.com/HinoVPN/hko-weather-report.git
+   cd hko-weather-report
+   ```
+
+2. **安裝依賴**
+   ```bash
+   npm install
+   ```
+
+3. **啟動開發伺服器**
+   ```bash
+   npm start
+   ```
+
+4. **開啟瀏覽器**
+   
+   訪問 [http://localhost:3000](http://localhost:3000) 查看應用程式
+
+## 📱 功能展示
+
+### 🏠 主要界面
+- **香港天氣標題區域**：應用標題和最後更新時間
+- **今天天氣大卡片**：當前溫度、天氣狀況、詳細資訊（濕度、UV 指數、降雨量）
+- **九天預報網格**：九天天氣預報卡片，包含日期、天氣圖標、溫度範圍、降雨機率
+
+### 📊 數據圖表
+- **溫度變化趨勢**：九天溫度高低點折線圖
+- **濕度變化趨勢**：九天相對濕度變化圖
+- **智能日期格式**：自動處理 YYYYMMDD 和 YYYY-MM-DD 格式
+
+### 🎨 視覺效果
+- **動態背景系統**：
+  - ☀️ **晴天**：深灰漸變
+  - ☁️ **多雲**：黑灰漸變
+  - 🌧️ **雨天**：深藍黑漸變
+  - ⛈️ **風暴**：純黑漸變
+  - ❄️ **雪天**：深灰漸變
+
+## 🔧 可用指令
+
+在專案目錄中，您可以執行：
 
 ### `npm start`
+以開發模式運行應用程式。
+在瀏覽器中開啟 [http://localhost:3000](http://localhost:3000) 查看。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+當您進行更改時，頁面會重新載入。
+您也可能在控制台中看到任何 lint 錯誤。
 
 ### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+以互動式監視模式啟動測試運行器。
 
 ### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+將應用程式建置到 `build` 資料夾以供生產環境使用。
+它正確地將 React 打包在生產模式中，並優化建置以獲得最佳性能。
 
 ### `npm run eject`
+**注意：這是一個單向操作。一旦您 `eject`，就無法返回！**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📂 專案結構
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+hko-weather-report/
+├── public/                 # 靜態資源
+│   ├── index.html         # HTML 模板
+│   └── ...
+├── src/                   # 源代碼
+│   ├── App.js            # 主應用組件
+│   ├── App.css           # 全局樣式
+│   ├── WeatherForecast.js # 天氣預報組件
+│   ├── index.js          # 應用入口點
+│   └── ...
+├── package.json          # 專案配置和依賴
+└── README.md            # 專案說明文件
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🌟 核心組件
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### WeatherForecast.js
+主要的天氣預報組件，包含：
+- 數據獲取和狀態管理
+- 當前天氣和預報數據渲染
+- 圖表數據準備和顯示
+- 動態背景邏輯
 
-## Learn More
+### App.css
+完整的樣式系統，包含：
+- CSS 變數定義（顏色、間距、圓角等）
+- 玻璃擬態效果實現
+- 響應式設計媒體查詢
+- 動畫和過渡效果
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🔗 API 整合
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 香港天文台開放數據
+- **當前天氣數據 (rhrread)**：提供即時溫度、濕度、UV 指數、降雨量等
+- **九天天氣預報 (fnd)**：提供未來九天的天氣預測
+- **數據更新頻率**：每小時更新
+- **語言支持**：繁體中文 (`lang=tc`)
 
-### Code Splitting
+## 🎯 未來規劃
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- [ ] 添加更多天氣資訊（風速、氣壓等）
+- [ ] 實現位置選擇功能
+- [ ] 添加天氣歷史數據對比
+- [ ] 整合天氣雷達圖
+- [ ] 實現 PWA 功能
 
-### Analyzing the Bundle Size
+## 🤝 貢獻
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+歡迎提交 Issue 和 Pull Request！
 
-### Making a Progressive Web App
+## 📄 授權
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+此專案採用 MIT 授權條款。
 
-### Advanced Configuration
+## 📞 聯絡
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+如有任何問題或建議，請通過 GitHub Issues 聯絡我們。
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**開發者：** HinoVPN  
+**最後更新：** 2025年1月  
+**版本：** 1.0.0
