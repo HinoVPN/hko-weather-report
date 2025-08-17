@@ -16,17 +16,18 @@ const WeatherForecast = () => {
     try {
       setLoading(true);
       
-      // 同時獲取當前天氣和9天預報
+      // Fetch current weather and 9-day forecast simultaneously
       const [currentResponse, forecastResponse] = await Promise.all([
         axios.get('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc'),
         axios.get('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc')
       ]);
+
       
       setCurrentData(currentResponse.data);
       setForecastData(forecastResponse.data);
       setError(null);
     } catch (err) {
-      console.error('獲取天氣數據失敗:', err);
+      console.error('Failed to fetch weather data:', err);
       setError('無法獲取天氣數據，請稍後重試');
     } finally {
       setLoading(false);
@@ -34,60 +35,62 @@ const WeatherForecast = () => {
   };
 
   const getWeatherIcon = (iconNumber) => {
-    // 根據天文台的天氣圖標編號返回對應的 Bootstrap 圖標
+    // Return corresponding Bootstrap icons based on Observatory weather icon numbers
     const iconMap = {
-      50: 'bi-sun',      // 晴朗
-      51: 'bi-sun',      // 陽光充沛
-      52: 'bi-cloud-sun', // 大致晴朗
-      53: 'bi-cloud-sun', // 短暫陽光
-      54: 'bi-clouds',    // 多雲
-      60: 'bi-clouds',    // 陰天
-      61: 'bi-cloud-drizzle', // 有驟雨
-      62: 'bi-cloud-rain', // 間中有雨
-      63: 'bi-cloud-rain-heavy', // 有雨
-      64: 'bi-cloud-rain-heavy', // 有大雨
-      65: 'bi-cloud-lightning-rain', // 雷暴
-      70: 'bi-snow',      // 有雪
-      71: 'bi-snow',      // 有雪花
-      72: 'bi-snow',      // 有雪花
-      73: 'bi-snow',      // 有雪花
-      74: 'bi-snow',      // 有雪花
-      75: 'bi-snow',      // 有雪花
-      76: 'bi-cloud-hail', // 有冰雹
-      77: 'bi-cloud-hail', // 有冰雹
-      80: 'bi-wind',      // 有風
-      81: 'bi-wind',      // 乾燥
-      82: 'bi-wind',      // 潮濕
-      83: 'bi-wind',      // 霧
-      84: 'bi-wind',      // 薄霧
-      85: 'bi-wind',      // 煙霞
-      90: 'bi-thermometer-high', // 酷熱
-      91: 'bi-thermometer-low',  // 寒冷
-      92: 'bi-thermometer-high', // 乾燥
-      93: 'bi-moisture',  // 潮濕
+      50: 'bi-sun',      // Sunny
+      51: 'bi-sun',      // Bright sunshine
+      52: 'bi-cloud-sun', // Mainly sunny
+      53: 'bi-cloud-sun', // Brief sunshine
+      54: 'bi-clouds',    // Cloudy
+      60: 'bi-clouds',    // Overcast
+      61: 'bi-cloud-drizzle', // Showers
+      62: 'bi-cloud-rain', // Occasional rain
+      63: 'bi-cloud-rain-heavy', // Rain
+      64: 'bi-cloud-rain-heavy', // Heavy rain
+      65: 'bi-cloud-lightning-rain', // Thunderstorm
+      70: 'bi-snow',      // Snow
+      71: 'bi-snow',      // Snowflakes
+      72: 'bi-snow',      // Snowflakes
+      73: 'bi-snow',      // Snowflakes
+      74: 'bi-snow',      // Snowflakes
+      75: 'bi-snow',      // Snowflakes
+      76: 'bi-cloud-hail', // Hail
+      77: 'bi-cloud-hail', // Hail
+      80: 'bi-wind',      // Windy
+      81: 'bi-wind',      // Dry
+      82: 'bi-wind',      // Humid
+      83: 'bi-wind',      // Fog
+      84: 'bi-wind',      // Mist
+      85: 'bi-wind',      // Haze
+      90: 'bi-thermometer-high', // Very hot
+      91: 'bi-thermometer-low',  // Cold
+      92: 'bi-thermometer-high', // Dry
+      93: 'bi-moisture',  // Humid
     };
     return iconMap[iconNumber] || 'bi-cloud';
   };
 
   const getPSRIcon = (psr) => {
-    // 顯著降雨概率圖標 - 統一使用雨傘
-    // 支援英文和中文PSR值
+    // Significant rainfall probability icons - using umbrella consistently
+    // Support both English and Chinese PSR values
     if (psr === 'High' || psr === '高') return 'bi-umbrella-fill text-danger';
     if (psr === 'Medium High' || psr === '中高') return 'bi-umbrella-fill text-warning';
     if (psr === 'Medium' || psr === '中') return 'bi-umbrella text-info';
     if (psr === 'Medium Low' || psr === '中低') return 'bi-umbrella text-secondary';
-    return 'bi-umbrella text-success'; // Low/低 或其他值
+    return 'bi-umbrella text-success'; // Low/低 or other values
   };
 
   const getPSRText = (psr) => {
+
+
     const psrMap = {
-      // 英文版本
+      // English version
       'High': '高 (≥70%)',
       'Medium High': '中高 (55-69%)',
       'Medium': '中 (45-54%)',
       'Medium Low': '中低 (30-44%)',
       'Low': '低 (<30%)',
-      // 中文版本
+      // Chinese version
       '高': '高 (≥70%)',
       '中高': '中高 (55-69%)',
       '中': '中 (45-54%)',
@@ -97,17 +100,19 @@ const WeatherForecast = () => {
     return psrMap[psr] || `${psr} (降雨概率)`;
   };
 
-  // 安全地提取數值的幫助函數
+  // Helper function to safely extract values
   const getValue = (data, fieldName = 'value') => {
+
+    
     if (data === null || data === undefined) return '--';
     
-    // 如果是物件，嘗試提取 value 屬性或指定的屬性
+    // If it's an object, try to extract the value attribute or specified attribute
     if (typeof data === 'object' && !Array.isArray(data)) {
       if (data[fieldName] !== undefined) {
         return data[fieldName];
       }
       
-      // 如果沒有找到指定屬性，嘗試一些常見的屬性
+      // If specified attribute not found, try some common attributes
       const commonFields = ['value', 'text', 'name', 'description'];
       for (const field of commonFields) {
         if (data[field] !== undefined) {
@@ -116,7 +121,7 @@ const WeatherForecast = () => {
         }
       }
       
-      // 如果是物件但沒有常見屬性，返回物件的字符串表示或第一個值
+      // If it's an object but has no common attributes, return string representation or first value
       const values = Object.values(data);
       if (values.length > 0) {
         console.warn(`No suitable field found, returning first value for:`, data);
@@ -124,31 +129,35 @@ const WeatherForecast = () => {
       }
     }
     
-    // 如果是陣列，返回第一個元素
+    // If it's an array, return the first element
     if (Array.isArray(data)) {
       console.warn(`Received array, returning first element:`, data);
       return data.length > 0 ? getValue(data[0], fieldName) : '--';
     }
     
-    // 如果是原始值，直接返回
+    // If it's a primitive value, return directly
     if (typeof data === 'string' || typeof data === 'number' || typeof data === 'boolean') {
       return data;
     }
     
     console.warn(`Unexpected data type for field '${fieldName}':`, typeof data, data);
     
-    // 回退方案
+    // Fallback option - ensure we never return an object
     try {
-      return String(data);
+      const stringValue = String(data);
+      // If String() returns "[object Object]", it means we're trying to convert an object
+      if (stringValue === "[object Object]") {
+        console.warn(`Returning object as string would result in "[object Object]", using fallback:`, data);
+        return '--';
+      }
+      return stringValue;
     } catch (e) {
       console.error(`Failed to convert to string:`, e);
       return '--';
     }
-    
-    return '--';
   };
 
-  // 格式化日期函數
+  // Date formatting function
   const formatDate = (dateString, weekString) => {
     try {
       const date = getValue(dateString);
@@ -156,7 +165,7 @@ const WeatherForecast = () => {
       
       if (!date) return `第${weekString}天`;
       
-      // 處理 YYYYMMDD 格式 (如: 20250803)
+      // Handle YYYYMMDD format (e.g.: 20250803)
       if (date.length === 8 && /^\d{8}$/.test(date)) {
         const year = date.substring(0, 4);
         const month = parseInt(date.substring(4, 6));
@@ -164,7 +173,7 @@ const WeatherForecast = () => {
         return `${month}月${day}日 ${week}`;
       }
       
-      // 處理 YYYY-MM-DD 格式
+      // Handle YYYY-MM-DD format
       const parts = date.split('-');
       if (parts.length === 3) {
         const month = parseInt(parts[1]);
@@ -172,24 +181,24 @@ const WeatherForecast = () => {
         return `${month}月${day}日 ${week}`;
       }
       
-      // 如果解析失敗，回退到原有格式
+      // If parsing fails, fallback to original format
       return `${date} ${week}`;
     } catch (error) {
       return `第${weekString}天`;
     }
   };
 
-  // 格式化更新時間函數
+  // Format update time function
   const formatUpdateTime = (isoDateString) => {
     try {
       const dateStr = getValue(isoDateString);
       if (!dateStr) return '未知時間';
       
-      // 處理 ISO 格式：2025-08-03T00:00:00+08:00
+      // Handle ISO format: 2025-08-03T00:00:00+08:00
       const date = new Date(dateStr);
       
       if (isNaN(date.getTime())) {
-        return dateStr; // 如果無法解析，返回原始字符串
+        return dateStr; // If unable to parse, return original string
       }
       
       const year = date.getFullYear();
@@ -200,12 +209,12 @@ const WeatherForecast = () => {
       
       return `${year}年${month}月${day}日 ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     } catch (error) {
-      console.error('格式化更新時間失敗:', error);
+      console.error('Failed to format update time:', error);
       return getValue(isoDateString);
     }
   };
 
-  // 準備圖表數據 - 包含今日和9天預報
+  // Prepare chart data - including today and 9-day forecast
   const prepareChartData = () => {
     if (!forecastData?.weatherForecast) return [];
     
@@ -218,9 +227,9 @@ const WeatherForecast = () => {
     }));
   };
 
-  // 獲取當前天氣狀況以決定背景顏色
+  // Get current weather conditions to determine background color
   const getWeatherBackground = () => {
-    // 檢查當前天氣圖標
+    // Check current weather icon
     if (currentData?.icon && currentData.icon.length > 0) {
       const iconNumber = getValue(currentData.icon[0]);
       
@@ -231,26 +240,38 @@ const WeatherForecast = () => {
       if ([70, 71, 72, 73, 74, 75, 76, 77].includes(iconNumber)) return 'snowy';
     }
     
-    // 如果有警告信息，根據警告類型決定背景
+    // If there are warning messages, determine background based on warning type
     if (currentData?.warningMessage && currentData.warningMessage.length > 0) {
       const warning = currentData.warningMessage[0].toLowerCase();
       if (warning.includes('雷暴') || warning.includes('暴雨')) return 'stormy';
       if (warning.includes('雨')) return 'rainy';
     }
     
-    // 如果有特別天氣提示，通常表示惡劣天氣
+    // If there are special weather tips, usually indicates severe weather
     if (currentData?.specialWxTips && currentData.specialWxTips.length > 0) {
       return 'stormy';
     }
     
-    return 'cloudy'; // 默認多雲
+    return 'cloudy'; // Default cloudy
   };
 
   if (loading) {
     return (
       <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <div className="loading-text">正在載入天氣資料...</div>
+        <div className="loading-content">
+          <div className="loading-spinner">
+            <div className="spinner-ring"></div>
+            <div className="spinner-ring"></div>
+            <div className="spinner-ring"></div>
+          </div>
+          <div className="loading-text">正在載入天氣資料...</div>
+          <div className="loading-subtext">
+            正在從香港天文台獲取最新數據
+          </div>
+          <div className="loading-progress">
+            <div className="progress-bar"></div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -278,7 +299,7 @@ const WeatherForecast = () => {
   return (
     <div className={`weather-app ${weatherBg}`}>
       <div className="weather-container">
-        {/* 風格標題區域 */}
+        {/* Stylish header section */}
         <header className="weather-header">
           <h1 className="weather-title">香港天氣</h1>
           <p className="weather-subtitle">香港天文台提供</p>
@@ -290,72 +311,72 @@ const WeatherForecast = () => {
           )}
         </header>
 
-        {/* 當前天氣大卡片 */}
+        {/* Current weather main card */}
         {currentData && (
           <section className="current-weather">
             <h2 className="current-weather-title text-white">今天</h2>
-            {/* 顯示香港天文台的溫度 */}
+            {/* Display Hong Kong Observatory temperature */}
             {currentData.temperature?.data && (
               <div className="current-temp">
                 {(() => {
-                  // 優先使用香港天文台的溫度
+                  // Prioritize Hong Kong Observatory temperature
                   const hkoTemp = currentData.temperature.data.find(item => 
                     getValue(item.place) === '香港天文台'
                   );
                   if (hkoTemp) {
-                    return `${getValue(hkoTemp)}°`;
+                    return `${getValue(hkoTemp, 'value')}°`;
                   }
-                  // 如果沒有香港天文台數據，使用第一個可用數據
+                  // If no Hong Kong Observatory data, use first available data
                   return currentData.temperature.data.length > 0 
-                    ? `${getValue(currentData.temperature.data[0])}°`
+                    ? `${getValue(currentData.temperature.data[0], 'value')}°`
                     : '--°';
                 })()}
               </div>
             )}
             
-            {/* 顯示天氣警告信息（如果有） */}
+            {/* Display weather warning messages (if any) */}
             {currentData.warningMessage && currentData.warningMessage.length > 0 && (
               <div className="current-description">
                 {currentData.warningMessage[0]}
               </div>
             )}
             
-            {/* 如果沒有警告信息，顯示一般天氣概況 */}
+            {/* If no warning messages, display general weather conditions */}
             {(!currentData.warningMessage || currentData.warningMessage.length === 0) && 
              forecastData?.generalSituation && (
               <div className="current-description">
-                {getValue(forecastData.generalSituation)}
+                {getValue(forecastData.generalSituation) || '一般天氣情況'}
               </div>
             )}
             
             <div className="current-details">
-              {/* 濕度數據 */}
+              {/* Humidity data */}
               {currentData.humidity?.data && currentData.humidity.data.length > 0 && (
                 <div className="current-detail-item">
                   <div className="current-detail-label">濕度</div>
                   <div className="current-detail-value">
-                    {getValue(currentData.humidity.data[0])}%
+                    {getValue(currentData.humidity.data[0], 'value')}%
                   </div>
                 </div>
               )}
               
-              {/* 紫外線指數 */}
+              {/* UV index */}
               {currentData.uvindex && (
                 <div className="current-detail-item">
                   <div className="current-detail-label">紫外線指數</div>
                   <div className="current-detail-value">
-                    {currentData.uvindex || '--'}
+                    {getValue(currentData.uvindex) || '--'}
                   </div>
                 </div>
               )}
               
-              {/* 當前降雨量（顯示最高降雨量地區） */}
+              {/* Current rainfall (display highest rainfall area) */}
               {currentData.rainfall?.data && currentData.rainfall.data.length > 0 && (
                 <div className="current-detail-item">
                   <div className="current-detail-label">降雨量</div>
                   <div className="current-detail-value">
                     {(() => {
-                      // 找出降雨量最高的地區
+                      // Find the area with highest rainfall
                       const maxRainfall = currentData.rainfall.data.reduce((max, current) => {
                         const currentMax = getValue(current, 'max') || 0;
                         const maxMax = getValue(max, 'max') || 0;
@@ -367,7 +388,7 @@ const WeatherForecast = () => {
                 </div>
               )}
               
-              {/* 溫度記錄時間 */}
+              {/* Temperature recording time */}
               {currentData.temperature?.recordTime && (
                 <div className="current-detail-item">
                   <div className="current-detail-label">記錄時間</div>
@@ -378,7 +399,7 @@ const WeatherForecast = () => {
               )}
             </div>
             
-            {/* 特別天氣提示 */}
+            {/* Special weather tips */}
             {currentData.specialWxTips && currentData.specialWxTips.length > 0 && (
               <div className="weather-warning">
                 <h4 className="warning-title">
@@ -393,7 +414,7 @@ const WeatherForecast = () => {
           </section>
         )}
 
-        {/* 九天預報 */}
+        {/* Nine-day forecast */}
         {forecastData?.weatherForecast && (
           <section className="forecast-section">
             <h2 className="forecast-title">九天預報</h2>
@@ -409,15 +430,15 @@ const WeatherForecast = () => {
                   </div>
                   
                   <div className="forecast-temps">
-                    <span className="forecast-temp-high">{getValue(day.forecastMaxtemp)}°</span>
-                    <span className="forecast-temp-low">{getValue(day.forecastMintemp)}°</span>
+                    <span className="forecast-temp-high">{getValue(day.forecastMaxtemp) || '--'}°</span>
+                    <span className="forecast-temp-low">{getValue(day.forecastMintemp) || '--'}°</span>
                   </div>
                   
                   <div className="forecast-details">
                     <div className="forecast-detail">
                       <span className="forecast-detail-label">濕度</span>
                       <span className="forecast-detail-value">
-                        {getValue(day.forecastMinrh)}-{getValue(day.forecastMaxrh)}%
+                        {getValue(day.forecastMinrh) || '--'}-{getValue(day.forecastMaxrh) || '--'}%
                       </span>
                     </div>
                     
@@ -425,8 +446,8 @@ const WeatherForecast = () => {
                       <div className="forecast-detail">
                         <span className="forecast-detail-label">降雨概率</span>
                         <span className="forecast-detail-value">
-                          <i className={`${getPSRIcon(getValue(day.PSR)).split(' ')[0]} me-1`}></i>
-                          {getPSRText(getValue(day.PSR))}
+                          <i className={`${getPSRIcon(getValue(day.PSR) || '').split(' ')[0]} me-1`}></i>
+                          {getPSRText(getValue(day.PSR) || '')}
                         </span>
                       </div>
                     )}
@@ -437,7 +458,7 @@ const WeatherForecast = () => {
           </section>
         )}
 
-        {/* 圖表區域 */}
+        {/* Chart section */}
         {chartData.length > 0 && (
           <section className="chart-section">
             <h3 className="chart-title">溫度變化趨勢</h3>
@@ -449,7 +470,7 @@ const WeatherForecast = () => {
                   tick={{fontSize: window.innerWidth < 576 ? 10 : 12, fill: 'rgba(255,255,255,0.7)'}}
                   tickFormatter={(value) => {
                     if (!value) return '';
-                    // 處理 YYYYMMDD 格式
+                    // Handle YYYYMMDD format
                     if (value.length === 8 && /^\d{8}$/.test(value)) {
                       const month = parseInt(value.substring(4, 6));
                       const day = parseInt(value.substring(6, 8));

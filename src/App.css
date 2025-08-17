@@ -1,36 +1,36 @@
-/* Weather App 風格樣式 */
+/* Weather App Styling */
 @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@200;300;400;500;600;700;800;900&display=swap');
 
 :root {
-  /* 深色動態背景系統 */
+  /* Dark dynamic background system */
   --bg-sunny: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1f1f1f 100%);
   --bg-cloudy: linear-gradient(135deg, #121212 0%, #1e1e1e 50%, #2a2a2a 100%);
   --bg-rainy: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #21262d 100%);
   --bg-stormy: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #262626 100%);
   --bg-snowy: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #333333 100%);
   
-  /* 文字色彩系統 */
+  /* Text color system */
   --text-primary: rgba(255, 255, 255, 0.95);
   --text-secondary: rgba(255, 255, 255, 0.7);
   --text-tertiary: rgba(255, 255, 255, 0.5);
   --text-dark: rgba(0, 0, 0, 0.8);
   --text-dark-secondary: rgba(0, 0, 0, 0.6);
   
-  /* 卡片系統 */
+  /* Card system */
   --card-bg: rgba(255, 255, 255, 0.15);
   --card-bg-hover: rgba(255, 255, 255, 0.25);
   --card-border: rgba(255, 255, 255, 0.3);
   --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.15);
   
-  /* 圓角系統 */
+  /* Border radius system */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
   --radius-xxl: 24px;
   
-  /* 間距系統 */
+  /* Spacing system */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
@@ -39,7 +39,7 @@
   --spacing-xxl: 48px;
 }
 
-/* 重置和基礎樣式 */
+/* Reset and base styles */
 * {
   margin: 0;
   padding: 0;
@@ -53,7 +53,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Weather 主容器 */
+/* Weather main container */
 .weather-app {
   min-height: 100vh;
   position: relative;
@@ -66,7 +66,7 @@ body {
 .weather-app.stormy { background: var(--bg-stormy); }
 .weather-app.snowy { background: var(--bg-snowy); }
 
-/* 風格容器 */
+/* Styled container */
 .weather-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -75,7 +75,7 @@ body {
   z-index: 1;
 }
 
-/* 風格標題區域 */
+/* Styled header section */
 .weather-header {
   text-align: center;
   margin-bottom: var(--spacing-xxl);
@@ -116,7 +116,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* 當前天氣大卡片 */
+/* Current weather main card */
 .current-weather {
   background: var(--card-bg);
   backdrop-filter: blur(40px);
@@ -177,7 +177,7 @@ body {
   color: var(--text-primary);
 }
 
-/* 當前天氣標題 */
+/* Current weather title */
 .current-weather-title {
   font-size: 1.5rem;
   font-weight: 600;
@@ -186,7 +186,7 @@ body {
   text-align: center;
 }
 
-/* 天氣警告樣式 */
+/* Weather warning styles */
 .weather-warning {
   background: rgba(255, 193, 7, 0.15);
   backdrop-filter: blur(20px);
@@ -213,7 +213,7 @@ body {
   margin: 0;
 }
 
-/* 十日預報網格 */
+/* Nine-day forecast grid */
 .forecast-section {
   margin-bottom: var(--spacing-xxl);
 }
@@ -232,7 +232,7 @@ body {
   gap: var(--spacing-md);
 }
 
-/* 預報卡片風格 */
+/* Forecast card styles */
 .forecast-card {
   background: var(--card-bg);
   backdrop-filter: blur(30px);
@@ -321,7 +321,7 @@ body {
   font-weight: 500;
 }
 
-/* 圖表區域 */
+/* Chart section */
 .chart-section {
   background: var(--card-bg);
   backdrop-filter: blur(40px);
@@ -340,7 +340,7 @@ body {
   text-align: center;
 }
 
-/* 響應式設計 */
+/* Responsive design */
 @media (max-width: 768px) {
   .weather-container {
     padding: var(--spacing-lg) var(--spacing-md);
@@ -386,7 +386,7 @@ body {
   }
 }
 
-/* 載入動畫 */
+/* Enhanced loading animation */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -395,22 +395,110 @@ body {
   min-height: 100vh;
   background: var(--bg-cloudy);
   color: var(--text-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  position: relative;
 }
 
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top: 3px solid var(--text-primary);
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: var(--spacing-xl);
+}
+
+.spinner-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: var(--spacing-md);
+  animation: rotateRing 2s linear infinite;
+}
+
+.spinner-ring:nth-child(1) {
+  border-top: 3px solid rgba(255, 255, 255, 0.9);
+  animation-delay: 0s;
+}
+
+.spinner-ring:nth-child(2) {
+  border-right: 3px solid rgba(255, 255, 255, 0.6);
+  animation-delay: -0.5s;
+  animation-duration: 1.5s;
+  width: 70%;
+  height: 70%;
+  top: 15%;
+  left: 15%;
+}
+
+.spinner-ring:nth-child(3) {
+  border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+  animation-delay: -1s;
+  animation-duration: 1s;
+  width: 40%;
+  height: 40%;
+  top: 30%;
+  left: 30%;
 }
 
 .loading-text {
-  font-size: 1.125rem;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+.loading-subtext {
+  font-size: 1rem;
   font-weight: 400;
   color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+  opacity: 0.8;
+}
+
+.loading-progress {
+  width: 200px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.4) 20%, 
+    rgba(255, 255, 255, 0.8) 50%, 
+    rgba(255, 255, 255, 0.4) 80%, 
+    transparent 100%
+  );
+  animation: progressSlide 2s ease-in-out infinite;
+  transform: translateX(-100%);
 }
 
 @keyframes spin {
@@ -418,7 +506,28 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-/* 錯誤狀態 */
+@keyframes rotateRing {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+@keyframes progressSlide {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Error state */
 .error-container {
   display: flex;
   flex-direction: column;
@@ -467,7 +576,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* 微妙的動畫效果 */
+/* Subtle animation effects */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -491,7 +600,7 @@ body {
   animation: fadeInUp 0.8s ease-out;
 }
 
-/* 動畫性能優化 */
+/* Animation performance optimization */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
